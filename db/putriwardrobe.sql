@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 07, 2018 at 08:14 AM
+-- Generation Time: Aug 07, 2018 at 08:59 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -50,9 +50,8 @@ INSERT INTO `levels` (`level_id`, `name`, `description`) VALUES
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `name` int(11) NOT NULL,
-  `size` int(11) NOT NULL,
-  `stock` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `size` varchar(250) NOT NULL,
   `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
