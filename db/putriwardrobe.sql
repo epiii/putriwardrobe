@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 07, 2018 at 07:12 AM
+-- Generation Time: Aug 07, 2018 at 08:14 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -83,6 +83,22 @@ CREATE TABLE `product_wardrobes` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `stock_opname`
+--
+
+CREATE TABLE `stock_opname` (
+  `stock_opname_id` int(11) NOT NULL,
+  `product_wardrobe_id` int(11) NOT NULL,
+  `supervisor_id` int(11) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `real_stock` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `note` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stores`
 --
 
@@ -100,7 +116,7 @@ CREATE TABLE `stores` (
 
 CREATE TABLE `transactions` (
   `transaction_id` int(11) NOT NULL,
-  `cashier_id` int(11) NOT NULL,
+  `cashier_id` int(11) DEFAULT NULL,
   `date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -115,7 +131,7 @@ CREATE TABLE `transaction_detail` (
   `transaction_id` int(11) NOT NULL,
   `product_wardrobe_id` int(11) NOT NULL,
   `cashier_id` int(11) DEFAULT NULL,
-  `type` enum('sold','restock','borrow','approved') NOT NULL DEFAULT 'sold',
+  `type` enum('sold','restock','request','approved') NOT NULL DEFAULT 'sold',
   `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -142,7 +158,9 @@ CREATE TABLE `users` (
 
 CREATE TABLE `wardrobes` (
   `wardrobe_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL
+  `store_id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `is_locked` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -175,6 +193,14 @@ ALTER TABLE `product_wardrobes`
   ADD PRIMARY KEY (`product_wardrobe_id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `wardrobe_id` (`wardrobe_id`);
+
+--
+-- Indexes for table `stock_opname`
+--
+ALTER TABLE `stock_opname`
+  ADD PRIMARY KEY (`stock_opname_id`),
+  ADD KEY `product_wardrobe_id` (`product_wardrobe_id`),
+  ADD KEY `supervisor_id` (`supervisor_id`);
 
 --
 -- Indexes for table `stores`
@@ -237,6 +263,11 @@ ALTER TABLE `product_categories`
 ALTER TABLE `product_wardrobes`
   MODIFY `product_wardrobe_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `stock_opname`
+--
+ALTER TABLE `stock_opname`
+  MODIFY `stock_opname_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `stores`
 --
 ALTER TABLE `stores`
@@ -277,6 +308,13 @@ ALTER TABLE `products`
 ALTER TABLE `product_wardrobes`
   ADD CONSTRAINT `product_wardrobes_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
   ADD CONSTRAINT `product_wardrobes_ibfk_2` FOREIGN KEY (`wardrobe_id`) REFERENCES `wardrobes` (`wardrobe_id`);
+
+--
+-- Constraints for table `stock_opname`
+--
+ALTER TABLE `stock_opname`
+  ADD CONSTRAINT `stock_opname_ibfk_1` FOREIGN KEY (`product_wardrobe_id`) REFERENCES `product_wardrobes` (`product_wardrobe_id`),
+  ADD CONSTRAINT `stock_opname_ibfk_2` FOREIGN KEY (`supervisor_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `transaction_detail`

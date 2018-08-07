@@ -1,0 +1,30 @@
+tables usage
+    - owner
+        - master 
+            - mastering product
+            	- product_category  
+            	- product
+        	- mastering store
+        		- store
+        	- mastering wardrobe
+        		- wardrobe
+        - detail
+        	- set / re-stock product to stores : 
+            	- transaction (cashier_id:null)
+            	- transaction_detail (type:restock, cashier_id:null)
+	            - product_wardrobe (stock:xx)
+
+    - supervisor
+        - view 
+        	- crosscheck stock in wardrobes
+        		- wardrobes (is_locked:0)	
+        		- product_wardrobes (stock:xx, real_stock:xx)
+
+    - cashier (@branch_store)
+        - transaction 
+            - sell product to buyer
+            	- transaction
+            	- transaction_detail (type:sold)
+            - request / approve stock another store
+            	- transaction
+            	- transaction_detail (type:request/approved, cashier_id:xx)
