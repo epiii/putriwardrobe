@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 07, 2018 at 08:59 AM
+-- Generation Time: Aug 09, 2018 at 08:53 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -106,6 +106,23 @@ CREATE TABLE `stores` (
   `name` varchar(250) NOT NULL,
   `address` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stores`
+--
+
+INSERT INTO `stores` (`store_id`, `name`, `address`) VALUES
+(5, 'toko satu', 'jln satu'),
+(6, 'toko dua', 'jln toko no 2'),
+(7, 'nah', 'itu'),
+(8, 'nah ', 'itu lagi'),
+(9, 'new lah', 'sippp'),
+(10, 'new lah', 'sippp'),
+(11, 'heeeeeeeem', 'hhhhhhhhhhhh'),
+(12, 'okkkkk', 'hhhhhhhhhhhh'),
+(13, 'coy', 'hhhhhhhhhhhh'),
+(14, 'anu', 'hhhhhhhhhhhh'),
+(15, 'baru', 'lah');
 
 -- --------------------------------------------------------
 
@@ -270,7 +287,7 @@ ALTER TABLE `stock_opname`
 -- AUTO_INCREMENT for table `stores`
 --
 ALTER TABLE `stores`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `transactions`
 --
