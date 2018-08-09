@@ -11,7 +11,7 @@
 					</div>
 
 					<div class="modal-body">
-						<input type="text" class="form-control"  name="store_id" >
+						<input type="hidden" class="form-control"  name="store_id" >
 						<label for="">Name</label>
 						<input type="text" required class="form-control" placeholder="entry name ..." name="name" >
 						<label for="">Address</label>
