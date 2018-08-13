@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 13, 2018 at 05:41 AM
+-- Generation Time: Aug 13, 2018 at 09:46 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -72,12 +72,21 @@ INSERT INTO `merks` (`merk_id`, `name`) VALUES
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `kode` varchar(250) NOT NULL,
+  `code` varchar(250) NOT NULL,
   `size` varchar(250) NOT NULL,
   `merk_id` int(11) NOT NULL,
   `purchase_price` int(11) NOT NULL,
   `selling_price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`product_id`, `category_id`, `code`, `size`, `merk_id`, `purchase_price`, `selling_price`) VALUES
+(2, 3, 'dg01', 'L', 8, 70000, 10000),
+(3, 2, 'J21', 'M', 7, 80000, 98000),
+(4, 5, 'CLL2', 'L', 6, 70000, 10000);
 
 -- --------------------------------------------------------
 
@@ -169,6 +178,7 @@ INSERT INTO `stores` (`store_id`, `name`, `address`) VALUES
 
 CREATE TABLE `transactions` (
   `transaction_id` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL,
   `cashier_id` int(11) DEFAULT NULL,
   `date` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -211,7 +221,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `store_id`, `level_id`, `name`, `username`, `email`, `password`, `status`, `phone`) VALUES
-(1, NULL, 1, 'Tuan Owner', 'owner', 'owner@gmail.com', 'owner', 1, '08888888888');
+(1, NULL, 1, 'Tuan Owner', 'owner', 'owner@gmail.com', 'owner', 1, '08888888888'),
+(2, 34, 3, 'bejo', 'bejo', 'bejo@gmail.com', 'bejo', 1, '085666666666');
 
 -- --------------------------------------------------------
 
@@ -232,8 +243,9 @@ CREATE TABLE `wardrobes` (
 
 INSERT INTO `wardrobes` (`wardrobe_id`, `store_id`, `code`, `is_locked`) VALUES
 (1, 39, 'W02', 1),
-(2, 40, 'W03', 0),
-(3, 25, 'W04', 1);
+(2, 40, 'W03', 1),
+(3, 25, 'W04', 0),
+(4, 40, 'fsfsd', 1);
 
 --
 -- Indexes for dumped tables
@@ -330,12 +342,12 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT for table `merks`
 --
 ALTER TABLE `merks`
-  MODIFY `merk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `merk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
@@ -370,12 +382,12 @@ ALTER TABLE `transaction_detail`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `wardrobes`
 --
 ALTER TABLE `wardrobes`
-  MODIFY `wardrobe_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `wardrobe_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
