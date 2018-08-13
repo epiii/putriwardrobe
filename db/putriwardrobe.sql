@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 09, 2018 at 08:53 AM
+-- Generation Time: Aug 13, 2018 at 05:41 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -44,15 +44,39 @@ INSERT INTO `levels` (`level_id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `merks`
+--
+
+CREATE TABLE `merks` (
+  `merk_id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `merks`
+--
+
+INSERT INTO `merks` (`merk_id`, `name`) VALUES
+(4, 'elzata '),
+(5, 'Pink'),
+(6, 'guess'),
+(7, 'levi\'s'),
+(8, 'Gucci');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `name` varchar(250) NOT NULL,
+  `kode` varchar(250) NOT NULL,
   `size` varchar(250) NOT NULL,
-  `price` int(11) NOT NULL
+  `merk_id` int(11) NOT NULL,
+  `purchase_price` int(11) NOT NULL,
+  `selling_price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -63,8 +87,18 @@ CREATE TABLE `products` (
 
 CREATE TABLE `product_categories` (
   `product_category_id` int(11) NOT NULL,
-  `name` int(11) NOT NULL
+  `name` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_categories`
+--
+
+INSERT INTO `product_categories` (`product_category_id`, `name`) VALUES
+(2, 'jacket'),
+(3, 'dress'),
+(4, 'kaos'),
+(5, 'celana');
 
 -- --------------------------------------------------------
 
@@ -112,17 +146,20 @@ CREATE TABLE `stores` (
 --
 
 INSERT INTO `stores` (`store_id`, `name`, `address`) VALUES
-(5, 'toko satu', 'jln satu'),
-(6, 'toko dua', 'jln toko no 2'),
-(7, 'nah', 'itu'),
-(8, 'nah ', 'itu lagi'),
-(9, 'new lah', 'sippp'),
-(10, 'new lah', 'sippp'),
-(11, 'heeeeeeeem', 'hhhhhhhhhhhh'),
-(12, 'okkkkk', 'hhhhhhhhhhhh'),
-(13, 'coy', 'hhhhhhhhhhhh'),
-(14, 'anu', 'hhhhhhhhhhhh'),
-(15, 'baru', 'lah');
+(25, 'S08', 'Jl. Nol lapan'),
+(28, 'S05 ', 'Jl. Nol Lima'),
+(30, 'S14', 'Jl. empat belas\r\n'),
+(31, 'S13', 'Jl tiga belas'),
+(32, 'S10', 'Jl Nol spuluh'),
+(33, 'S09', 'Jl. Nol Sembilan'),
+(34, 'S02', 'Jl. Nol dua'),
+(36, 'S06', 'Jl. Nol enam'),
+(37, 'S12', 'Jl dua belas'),
+(38, 'S11', 'Jl sebelas'),
+(39, 'S03', 'Jl. Nol tiga'),
+(40, 'S01', 'Jl nol satu'),
+(41, 'S07', 'Jl Nol Tujuh'),
+(42, 'S04', 'Jl. Nol Empat');
 
 -- --------------------------------------------------------
 
@@ -163,8 +200,18 @@ CREATE TABLE `users` (
   `level_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `username` text,
-  `password` text
+  `email` varchar(50) NOT NULL,
+  `password` text,
+  `status` int(11) NOT NULL,
+  `phone` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `store_id`, `level_id`, `name`, `username`, `email`, `password`, `status`, `phone`) VALUES
+(1, NULL, 1, 'Tuan Owner', 'owner', 'owner@gmail.com', 'owner', 1, '08888888888');
 
 -- --------------------------------------------------------
 
@@ -175,9 +222,18 @@ CREATE TABLE `users` (
 CREATE TABLE `wardrobes` (
   `wardrobe_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `code` int(11) NOT NULL,
+  `code` varchar(10) NOT NULL,
   `is_locked` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `wardrobes`
+--
+
+INSERT INTO `wardrobes` (`wardrobe_id`, `store_id`, `code`, `is_locked`) VALUES
+(1, 39, 'W02', 1),
+(2, 40, 'W03', 0),
+(3, 25, 'W04', 1);
 
 --
 -- Indexes for dumped tables
@@ -190,11 +246,18 @@ ALTER TABLE `levels`
   ADD PRIMARY KEY (`level_id`);
 
 --
+-- Indexes for table `merks`
+--
+ALTER TABLE `merks`
+  ADD PRIMARY KEY (`merk_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `merk_id` (`merk_id`);
 
 --
 -- Indexes for table `product_categories`
@@ -264,6 +327,11 @@ ALTER TABLE `wardrobes`
 ALTER TABLE `levels`
   MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT for table `merks`
+--
+ALTER TABLE `merks`
+  MODIFY `merk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
@@ -272,7 +340,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `product_category_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `product_wardrobes`
 --
@@ -287,7 +355,7 @@ ALTER TABLE `stock_opname`
 -- AUTO_INCREMENT for table `stores`
 --
 ALTER TABLE `stores`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `transactions`
 --
@@ -302,12 +370,12 @@ ALTER TABLE `transaction_detail`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `wardrobes`
 --
 ALTER TABLE `wardrobes`
-  MODIFY `wardrobe_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `wardrobe_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
@@ -316,7 +384,8 @@ ALTER TABLE `wardrobes`
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `product_category_fk` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`product_category_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `product_category_fk` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`product_category_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`merk_id`) REFERENCES `merks` (`merk_id`);
 
 --
 -- Constraints for table `product_wardrobes`

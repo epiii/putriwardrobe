@@ -1,4 +1,6 @@
 <?php
+  include 'dbcon.php';
+
   function pr($par) {
     echo "<pre>";
       print_r($par);
@@ -10,5 +12,19 @@
       var_dump($par);
     echo"</pre>";
     exit();
+  }
+
+  function getDataByParam($table,$par,$val){
+    global $conn;
+    // pr($conn);
+    $whr = $val!=''?' WHERE '.$par.'="'.$val.'"':'';
+    $s='SELECT * FROM '.$table.$whr.' ORDER BY '.$par.' ASC';
+    // pr($s);
+    $e=mysqli_query($conn,$s);
+    $r=mysqli_fetch_assoc($e);
+    return [
+      'status'=>$e?'success':'failed to load data',
+      'data'  =>$r
+    ];
   }
 ?>
