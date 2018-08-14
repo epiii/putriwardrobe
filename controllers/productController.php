@@ -32,6 +32,8 @@
 				$sql = "SELECT * ";
 				$sql.=" FROM {$table}";
 				$sql.=" WHERE ".$columns[1]." LIKE '%".$requestData['search']['value']."%' ";    // $requestData['search']['value'] contains search parameter
+				$sql.=" OR ".$columns[2]." LIKE '%".$requestData['search']['value']."%' ";    // $requestData['search']['value'] contains search parameter
+				$sql.=" OR ".$columns[3]." LIKE '%".$requestData['search']['value']."%' ";    // $requestData['search']['value'] contains search parameter
 				$query=mysqli_query($conn, $sql) or die(mysqli_error($conn));
 				$totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query
 
@@ -49,9 +51,11 @@
 			}
 			$data = array();
 			while( $row=mysqli_fetch_assoc($query) ) {  // preparing an array
+				// pr($row);
 				$nestedData=array();
 				$cats = getDataByParam('product_categories','product_category_id',$row["product_category_id"]);
 				$merks = getDataByParam('merks','merk_id',$row["merk_id"]);
+				// pr($merks);
 				$nestedData[] = $cats['data']['name'];
 				$nestedData[] = $row["code"];
 				$nestedData[] = $row["size"];
@@ -72,7 +76,7 @@
 								data-target="#confirmModal"
 								class="btn btn-xs btn-danger"
 								onclick="deleteRow('.$row[$title.'_id'].')"
-								data-message="Are you sure you want to delete \''.$row['name'].' \' ?"
+								data-message="Are you sure you want to delete \''.$row['code'].' \' ?"
 							>
 					        <i class="glyphicon glyphicon-cross"></i> Delete
 					    </button>
