@@ -28,8 +28,7 @@
 				$sql = "SELECT * ";
 				$sql.=" FROM {$table}";
 				$sql.=" WHERE name LIKE '%".$requestData['search']['value']."%' ";    // $requestData['search']['value'] contains search parameter
-				$sql.=" OR address LIKE '%".$requestData['search']['value']."%' ";
-		// pr($sql);
+				
 				$query=mysqli_query($conn, $sql) or die(mysqli_error($conn));
 				$totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query
 

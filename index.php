@@ -1,3 +1,6 @@
+<?php
+  include 'lib/function.php';
+?>
 <!DOCTYPE html>
 <html>
 
@@ -573,6 +576,10 @@
       <!-- <div class="row clearfix"> -->
         <?php
         // MASTER
+        // pr(isset($_GET));
+        if(!isset($_GET['menu'])){
+          include 'views/dashboardView.php';
+        }else{
   				if ($_GET['menu']=='store') {
   					include 'views/storeView.php';
   				}elseif ($_GET['menu']=='productCategories') {
@@ -596,8 +603,9 @@
           elseif ($_GET['menu']=='users') {
   					include 'views/userView.php';
   				}else{
-  					echo "home";
-  				}
+  					include 'views/dashboardView.php';
+          }
+        }
   			?>
       <!-- </div> -->
     </div>

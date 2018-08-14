@@ -2,7 +2,8 @@
 /* Database connection start */
 $servername = "localhost";
 $username = "root";
-$password = "9kali9=81ub";
+$password = "";
+// $password = "9kali9=81ub";
 // $password = "Password1";
 $dbname = "putriwardrobe";
 // $dbname = "datatable";
