@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 13, 2018 at 09:46 AM
+-- Generation Time: Aug 14, 2018 at 01:09 PM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -71,7 +71,7 @@ INSERT INTO `merks` (`merk_id`, `name`) VALUES
 
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `product_category_id` int(11) NOT NULL,
   `code` varchar(250) NOT NULL,
   `size` varchar(250) NOT NULL,
   `merk_id` int(11) NOT NULL,
@@ -83,10 +83,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `category_id`, `code`, `size`, `merk_id`, `purchase_price`, `selling_price`) VALUES
+INSERT INTO `products` (`product_id`, `product_category_id`, `code`, `size`, `merk_id`, `purchase_price`, `selling_price`) VALUES
 (2, 3, 'dg01', 'L', 8, 70000, 10000),
 (3, 2, 'J21', 'M', 7, 80000, 98000),
-(4, 5, 'CLL2', 'L', 6, 70000, 10000);
+(4, 5, 'CLL2', 'L', 6, 70000, 10000),
+(5, 5, 'CLE02', 'M', 4, 50000, 86000);
 
 -- --------------------------------------------------------
 
@@ -222,7 +223,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `store_id`, `level_id`, `name`, `username`, `email`, `password`, `status`, `phone`) VALUES
 (1, NULL, 1, 'Tuan Owner', 'owner', 'owner@gmail.com', 'owner', 1, '08888888888'),
-(2, 34, 3, 'bejo', 'bejo', 'bejo@gmail.com', 'bejo', 1, '085666666666');
+(2, 34, 3, 'bejo', 'bejo', 'bejo@gmail.com', 'bejo', 1, '085666666666'),
+(3, 34, 3, 'supri', 'supri', 'superuser@laraship.com', 'supri', 0, '03840293');
 
 -- --------------------------------------------------------
 
@@ -244,8 +246,11 @@ CREATE TABLE `wardrobes` (
 INSERT INTO `wardrobes` (`wardrobe_id`, `store_id`, `code`, `is_locked`) VALUES
 (1, 39, 'W02', 1),
 (2, 40, 'W03', 1),
-(3, 25, 'W04', 0),
-(4, 40, 'fsfsd', 1);
+(3, 36, 'W04', 1),
+(4, 40, 'fsfsd', 1),
+(5, 40, '090909', 1),
+(6, 25, '', 0),
+(7, 39, 'wj33', 0);
 
 --
 -- Indexes for dumped tables
@@ -268,7 +273,7 @@ ALTER TABLE `merks`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`),
-  ADD KEY `category_id` (`category_id`),
+  ADD KEY `category_id` (`product_category_id`),
   ADD KEY `merk_id` (`merk_id`);
 
 --
@@ -342,12 +347,12 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT for table `merks`
 --
 ALTER TABLE `merks`
-  MODIFY `merk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `merk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
@@ -382,12 +387,12 @@ ALTER TABLE `transaction_detail`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `wardrobes`
 --
 ALTER TABLE `wardrobes`
-  MODIFY `wardrobe_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `wardrobe_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Constraints for dumped tables
 --
@@ -396,7 +401,7 @@ ALTER TABLE `wardrobes`
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `product_category_fk` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`product_category_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_category_fk` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`product_category_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`merk_id`) REFERENCES `merks` (`merk_id`);
 
 --

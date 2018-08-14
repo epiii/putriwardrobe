@@ -7,15 +7,15 @@
 	if (!isset($_POST['action'])) {
 			$outArr=['status'=>'invalid_request'];
 	}else{
-		// $outArr=['status'=>'valid_request'];
-		$title = 'wardrobe';
-		$table = $title.'s';
+		$outArr=['status'=>'valid_request'];
+		$title = 'productWardrobe';
+		$table = 'product_wardrobes';
 		if ($_POST['action']=='view') {
 			// datatable column index  => database column name
 			$columns = array(
-				0 =>'store_id',
-				1 =>'code',
-				2 =>'is_locked',
+				0 =>'product_id',
+				1 =>'wardrobe_id',
+				2 =>'stock',
 			);
 
 			// getting total number records without any search
@@ -105,13 +105,6 @@
 			$data = getDataByParam($table, $title.'_id',$_POST[$title.'_id']);
 			$outArr=[
 				'status'=>$data['status'],
-				'data'	=>$data['data']
-			];
-		} elseif ($_POST['action']=='comboWardrobe') {
-			$data = getListByParam($table, 'store_id',$_POST['store_id']);
-			$outArr=[
-				'status'=>$data['status'],
-				'num'		=>$data['num'],
 				'data'	=>$data['data']
 			];
 		} elseif ($_POST['action']=='delete') {

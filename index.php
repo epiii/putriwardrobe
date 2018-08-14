@@ -357,8 +357,8 @@
                 </a>
               </li>
               <li>
-                <a href="javascript:void(0);">
-                    <span>Sharing Stock</span>
+                <a href="?menu=productWardrobes">
+                    <span>Sharing Stock (Owner)</span>
                 </a>
               </li>
 
@@ -583,6 +583,8 @@
   					include 'views/merkView.php';
   				}elseif ($_GET['menu']=='wardrobes') {
   					include 'views/wardrobeView.php';
+  				}elseif ($_GET['menu']=='productWardrobes') {
+  					include 'views/productWardrobeView.php';
   				}
           // transaction
           elseif ($_GET['menu']=='sell') {

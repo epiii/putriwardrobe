@@ -11,9 +11,8 @@
 		$title = 'product';
 		$table = $title.'s';
 		if ($_POST['action']=='view') {
-			// datatable column index  => database column name
 			$columns = array(
-				0 =>'category_id',
+				0 =>'product_category_id',
 				1 =>'code',
 				2 =>'size',
 				3 =>'merk_id',
@@ -48,23 +47,18 @@
 				// pr($sql);
 				$query=mysqli_query($conn, $sql) or die(mysqli_error($conn));
 			}
-			// pr($query);
 			$data = array();
 			while( $row=mysqli_fetch_assoc($query) ) {  // preparing an array
 				$nestedData=array();
-				// $status ='<i class="material-icons">'.($row["is_locked"]=='1'?'lock':'lock_open').'</i>
-				// 	<span class="icon-name">'.($row["is_locked"]=='1'?'locked':'unlocked').'</span>';
-				$cats = getDataByParam('product_categories','product_category_id',$row["category_id"]);
+				$cats = getDataByParam('product_categories','product_category_id',$row["product_category_id"]);
 				$merks = getDataByParam('merks','merk_id',$row["merk_id"]);
-				// pr($cats);
-				// $nestedData[] = $stores['data']['name'].' ('.$stores['data']['address'].')';
 				$nestedData[] = $cats['data']['name'];
 				$nestedData[] = $row["code"];
 				$nestedData[] = $row["size"];
 				$nestedData[] = $merks['data']['name'];
 				$nestedData[] = 'Rp.'.number_format($row["purchase_price"]);
 				$nestedData[] = 'Rp.'.number_format($row["selling_price"]);
-				// $nestedData[] = $status;
+
 				$nestedData[] = '
 					<button onclick="editRow('.$row[$title.'_id'].')" data-toggle="modal" data-target="modalDiv" data-id="'.$row[$title.'_id'].'" class="btn btn-info btn-xs">
 						<i class="glyphicon glyphicon-pencil"></i> Edit
@@ -94,9 +88,10 @@
 				"data"            => $data,   // total data array
 				"status" => 'success view',
 			);
-		} elseif ($_POST['action']=='save') {
+		}
+		elseif ($_POST['action']=='save') {
 			$sql= $table.' SET
-						category_id		="'.$_POST['category_id'].'",
+						product_category_id		="'.$_POST['product_category_id'].'",
 						merk_id				="'.$_POST['merk_id'].'",
 						size					="'.$_POST['size'].'",
 						purchase_price="'.$_POST['purchase_price'].'",
@@ -107,19 +102,57 @@
 			}else{
 				$s='INSERT INTO '.$sql;
 			}
+
 // pr($s);
 			$e=mysqli_query($conn,$s);
 			$outArr=['status'=>!$e?'failed save db':'success'];
-		} elseif ($_POST['action']=='edit') {
+		}
+		elseif ($_POST['action']=='edit') {
 			$data = getDataByParam($table, $title.'_id',$_POST[$title.'_id']);
 			$outArr=[
 				'status'=>$data['status'],
 				'data'	=>$data['data']
 			];
-		} elseif ($_POST['action']=='delete') {
+		}
+		elseif ($_POST['action']=='delete') {
 			$s= 'DELETE FROM '.$table.' WHERE store_id ='.$_POST[$title.'_id'];
 			$e=mysqli_query($conn,$s);
 			$outArr=['status'=>!$e?'failed delete data':'success'];
+		}
+		elseif ($_POST['action']=='comboProduct') {
+			$data = getListByParam($table, 'product_category_id',$_POST['product_category_id']);
+			$outArr=[
+				'status'=>$data['status'],
+				'num'=>$data['num'],
+				'data'=>$data['data'],
+			];
+		}
+		elseif ($_POST['action']=='detailProduct') {
+			$s='select
+				p.code,
+				p.size,
+				p.purchase_price,
+				p.selling_price,
+				m.name merk
+			from
+				products p
+				join merks m on m.merk_id = p.merk_id
+			WHERE
+				p.product_id='.$_POST['product_id'].'
+			ORDER BY code ASC';
+			$e=mysqli_query($conn,$s);
+			// vd($e);
+			$r=mysqli_fetch_assoc($e);
+			$outArr=[
+				'status'=>$e?'success':'failed to load data',
+				'data'=>array(
+					'code'=>$r['code'],
+					'size'=>$r['size'],
+					'purchase_price'=>'Rp.'.number_format($r['purchase_price']),
+					'selling_price'=>'Rp.'.number_format($r['selling_price']),
+					'merk'=>$r['merk'],
+				)
+			];
 		}
 	}
 	echo json_encode($outArr);  // send data as json format
